@@ -1,0 +1,11 @@
+[build]
+  publish = "public/"
+
+[functions]
+  directory = "netlify/functions/"
+
+[[redirects]]
+  from = "/secret.html"
+  to = "/index.html"
+  status = 302
+  conditions = {Cookie = ["!is-logged-in"]}
