@@ -1,4 +1,14 @@
-        // Main JavaScript file
+// --- Security Check Start ---
+if (sessionStorage.getItem("allowed") !== "true") {
+    window.location.replace("index.html");
+}
+// --- Security Check End ---
+
+// Your existing code starts here
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('Birthday Surprise Website Loaded!');
+    // ... rest of your code
+// Main JavaScript file
         document.addEventListener('DOMContentLoaded', function () {
             console.log('Birthday Surprise Website Loaded!');
 
@@ -210,4 +220,5 @@
         }
     `;
             document.head.appendChild(style);
+
         });
