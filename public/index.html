@@ -4,7 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
-  
+    <script>
+        // If the "allowed" token is not found, kick them back to index.html immediately
+        if (sessionStorage.getItem("allowed") !== "true") {
+            window.location.replace("index.html");
+        }
+    </script>
+    
   <!-- Import a modern font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -182,3 +188,4 @@
 
 </body>
 </html>
+
