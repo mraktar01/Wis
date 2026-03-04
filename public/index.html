@@ -146,46 +146,48 @@
 
   <!-- This JS controls the login logic (unchanged) -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const loginForm = document.getElementById('login-form');
-      const messageEl = document.getElementById('message');
+  document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.getElementById('login-form');
+    const messageEl = document.getElementById('message');
 
-      loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const password = document.getElementById('password').value;
-        messageEl.textContent = 'Checking...';
-        // Add a "checking" color
-        messageEl.style.color = '#666';
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const password = document.getElementById('password').value;
+      messageEl.textContent = 'Checking...';
+      messageEl.style.color = '#666';
 
-        try {
-          const response = await fetch('/.netlify/functions/check-pass', {
-            method: 'POST',
-            body: JSON.stringify({ password: password }),
-          });
+      try {
+        const response = await fetch('/.netlify/functions/check-pass', {
+          method: 'POST',
+          body: JSON.stringify({ password: password }),
+        });
 
-          if (response.ok) {
-            messageEl.textContent = 'Success! Redirecting...';
-            // Add a "success" color
-            messageEl.style.color = '#16a34a'; // Green
-            
-            // If correct, send to secret.html
-            setTimeout(() => {
-              window.location.href = '/secret.html';
-            }, 1000); // Wait 1 second before redirect
+        if (response.ok) {
+          // --- THE CRITICAL FIX ---
+          // This creates the "key" that secret.html is looking for
+          sessionStorage.setItem("allowed", "true"); 
+          
+          messageEl.textContent = 'Success! Redirecting...';
+          messageEl.style.color = '#16a34a'; // Green
+          
+          // Redirect after a short delay
+          setTimeout(() => {
+            window.location.href = '/secret.html';
+          }, 1000); 
 
-          } else {
-            messageEl.textContent = 'Wrong password. Try again.';
-            // Add an "error" color
-            messageEl.style.color = '#dc2626'; // Red
-          }
-        } catch (err) {
-          messageEl.textContent = 'An error occurred.';
+        } else {
+          messageEl.textContent = 'Wrong password. Try again.';
           messageEl.style.color = '#dc2626'; // Red
         }
-      });
+      } catch (err) {
+        messageEl.textContent = 'An error occurred.';
+        messageEl.style.color = '#dc2626'; // Red
+      }
     });
-  </script>
+  });
+</script>
 
 </body>
 </html>
+
 
